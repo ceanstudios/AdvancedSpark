@@ -1,4 +1,4 @@
-package de.ceanstudios.sparkadvanced.annotation;
+package de.ceanstudios.sparkadvanced.annotation.mapping;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -12,19 +12,26 @@ import java.lang.reflect.Method;
 @RequiredArgsConstructor
 public class MethodToRouteMapper implements Route {
 
+    private final MethodParameterMapper methodParameterMapper;
     private final Object object;
     private final Method method;
     private final Gson gson = new Gson();
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        // TODO: 01.01.20 map the method to an result object
         final Class<?> returnType = method.getReturnType();
 
-        if (returnType == AdvancedResponse.class) {
-            final Object body = method.invoke(object);
+        response.type("application/json");
 
-            return gson.toJson(body);
+        if (returnType == AdvancedResponse.class) {
+            final Object[] parameters = methodParameterMapper.mapParametersForMethod(method, request);
+            final AdvancedResponse advancedResponse = (AdvancedResponse) method.invoke(object, parameters);
+
+            if (advancedResponse.getBody() != null) {
+                return gson.toJson(advancedResponse.getBody());
+            }
+
+            return gson.toJson(advancedResponse);
         }
 
         return gson.toJson(method.getReturnType().getConstructor().newInstance());

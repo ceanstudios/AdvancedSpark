@@ -1,13 +1,10 @@
 package de.ceanstudios.sparkadvanced.response;
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Builder
 @Data
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AdvancedResponse {
 
     private int state;
